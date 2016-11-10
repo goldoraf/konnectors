@@ -24,10 +24,16 @@ module.exports = {
           konnector.importErrorMessage = 'encrypted fields';
         } else {
           konnector.injectEncryptedFields();
-          konnectorModule = require("../konnectors/" + konnector.slug);
-          if (konnectorModule.customView != null) {
-            konnector.customView = konnectorModule.customView;
-          }
+        }
+        konnectorModule = require(path.join('..', 'konnectors', konnector.slug));
+        if (konnectorModule["default"] != null) {
+          konnectorModule = konnectorModule["default"];
+        }
+        if (konnectorModule.customView != null) {
+          konnector.customView = konnectorModule.customView;
+        }
+        if (konnectorModule.connectUrl != null) {
+          konnector.connectUrl = konnectorModule.connectUrl;
         }
         req.konnector = konnector;
         return next();
@@ -87,5 +93,29 @@ module.exports = {
         }
       });
     }
+  },
+  redirect: function(req, res, next) {
+    var account, accounts, e, k, ref, v;
+    try {
+      accounts = req.konnector.accounts || [];
+      account = accounts[req.params.accountId] || {};
+      ref = req.query;
+      for (k in ref) {
+        v = ref[k];
+        account[k] = v;
+      }
+      accounts[req.params.accountId] = account;
+    } catch (error) {
+      e = error;
+      return next(e);
+    }
+    return req.konnector.updateFieldValues({
+      accounts: accounts
+    }, function(err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/#konnector/' + req.konnector.slug);
+    });
   }
 };
