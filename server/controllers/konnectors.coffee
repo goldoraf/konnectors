@@ -36,6 +36,9 @@ module.exports =
                 if konnectorModule.customView?
                     konnector.customView = konnectorModule.customView
 
+                if konnectorModule.connectUrl?
+                    konnector.connectUrl = konnectorModule.connectUrl
+
                 req.konnector = konnector
                 next()
 
@@ -95,3 +98,18 @@ module.exports =
                             else
                                 handleNotification req.konnector, notifContent
                     res.status(200).send success: true
+
+    redirect: (req, res, next) ->
+        try
+            accounts = req.konnector.accounts or []
+            account = accounts[req.params.accountId] or {}
+            for k, v of req.query
+                account[k] = v
+
+            accounts[req.params.accountId] = account
+        catch e then return next e
+
+        req.konnector.updateFieldValues { accounts: accounts }, (err) ->
+            return next err if err
+
+            res.redirect '/#konnector/' + req.konnector.slug
