@@ -1,16 +1,17 @@
-"use strict";
+'use strict'
 
-const path = require('path');
-const fs   = require('fs');
+const path = require('path')
+const fs   = require('fs')
 
-const webpack = require('webpack');
+const webpack = require('webpack')
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyPlugin        = require('copy-webpack-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyPlugin        = require('copy-webpack-plugin')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+
 
 // use the `OPTIMIZE` env to switch from dev to production build
-const optimize = process.env.OPTIMIZE === 'true';
+const optimize = process.env.OPTIMIZE === 'true'
 
 
 /**
@@ -21,14 +22,17 @@ const optimize = process.env.OPTIMIZE === 'true';
  * customized via PostCSS
  * - images are cache-busted in production build
  */
-const cssOptions = optimize? 'css?-svgo&-autoprefixer&-mergeRules':'css';
-const imgPath = 'img/' + '[name]' + (optimize? '.[hash]': '') + '.[ext]';
+const cssOptions = optimize? 'css?-svgo&-autoprefixer&-mergeRules':'css'
+const imgPath = 'img/' + '[name]' + (optimize? '.[hash]': '') + '.[ext]'
 
 let loaders = [
     {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel?presets=es2015'
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
     },
     {
         test: /\.vue$/,
@@ -40,12 +44,12 @@ let loaders = [
     },
     {
         test: /\.svg$/,
-        include: /sprites/,
+        include: /(sprites|icons)/,
         loader: 'svg-sprite?name=[name]_[hash]'
     },
     {
         test: /\.(png|gif|jpe?g|svg)$/i,
-        exclude: /(vendor|sprites)/,
+        exclude: /(vendor|sprites|icons)/,
         loader: 'file?name=' + imgPath
     }
 ];
