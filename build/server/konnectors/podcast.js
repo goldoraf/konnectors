@@ -153,7 +153,6 @@ function notify(requiredFields, entries, data, next) {
 
 // All functions below are only used internaly by the connector's main functions
 
-
 // Requests a RSS feed and passes it as a string to the callback
 // feedUrl: String containing the URL to request
 // callback(err, rawFeed): Callback

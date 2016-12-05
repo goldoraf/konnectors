@@ -379,7 +379,6 @@ function getPage(url, callback) {
 // ----------------------------------------------------------------------------
 // Functions to parse old SNCF pages
 
-
 // SNCF did not change the html pages for old orders, only for new ones
 function getEventsOld(orderInformations, events, callback) {
   var uri = 'http://espace-client.voyages-sncf.com/services-train/suivi-commande?pnrRef=' + orderInformations.reference + '&ownerName=' + orderInformations.owner + '&fromCustomerAccount=true';
