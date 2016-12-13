@@ -249,10 +249,19 @@ module.exports = baseKonnector.createNew({
     css: '#0062AE'
   },
   fields: {
-    login: "text",
-    password: "password",
-    bank_identifier: "string",
-    folderPath: "folder"
+    login: {
+      type: 'text'
+    },
+    password: {
+      type: 'password'
+    },
+    bank_identifier: {
+      type: 'text'
+    },
+    folderPath: {
+      type: 'folder',
+      advanced: true
+    }
   },
   models: [Bill],
   fetchOperations: [checkLogin, logIn, parsePage, filterExisting(log, Bill), saveDataAndFile(log, Bill, fileOptions, ['health', 'bill']), customLinkBankOperation, buildNotification]

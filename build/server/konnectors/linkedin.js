@@ -400,8 +400,12 @@ module.exports = {
   },
 
   fields: {
-    login: 'text',
-    password: 'password'
+    login: {
+      type: 'text'
+    },
+    password: {
+      type: 'password'
+    }
   },
 
   models: {

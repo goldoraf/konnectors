@@ -48,9 +48,16 @@ var connector = module.exports = baseKonnector.createNew({
     css: '#E8308A'
   },
   fields: {
-    login: 'text',
-    password: 'password',
-    folderPath: 'folder'
+    login: {
+      type: 'text'
+    },
+    password: {
+      type: 'password'
+    },
+    folderPath: {
+      type: 'folder',
+      advanced: true
+    }
   },
   models: [Bill],
   fetchOperations: [getHiddenInputs, logIn, parsePage, customFilterExisting, customSaveDataAndFile, linkBankOperation({

@@ -37,8 +37,12 @@ module.exports = {
     css: '#161615'
   },
   fields: {
-    login: "text",
-    password: "password"
+    login: {
+      type: "text"
+    },
+    password: {
+      type: "password"
+    }
   },
   models: {
     commit: Commit

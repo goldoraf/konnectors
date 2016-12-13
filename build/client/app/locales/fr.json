@@ -40,15 +40,6 @@
   "remove last account": "Supprimer le dernier compte",
   "vendorLink": "Site d'où sont récupérées les données : ",
   "loginUrl": "URL d'authentification",
-  "category telecom": "Télécom",
-  "category isp": "FAI",
-  "category energy": "Énergie",
-  "category host_provider": "Hébergeur",
-  "category productivity": "Productivité",
-  "category health": "Santé",
-  "category social": "Social",
-  "category transport": "Voyage et transport",
-  "category others": "Autres",
   "token": "Token",
   "refreshToken": "Mettre à jour le token",
   "home headline": "Konnectors vous permet de récupérer de nombreuses données et de les intégrer à votre Cozy.\nDe vos factures de téléphone aux données de votre balance connectée en passant par vos tweets. Configurez les connecteurs qui vous intéressent :",
@@ -159,5 +150,11 @@
   "energy category": "Énergie",
   "host_provider category": "Hébergeur",
   "productivity category": "Productivité",
-  "others category": "Autres"
+  "others category": "Autres",
+
+  "my_accounts account config title": "Connectez votre compte %{name} dès maintenant :",
+  "my_accounts account config button": "Connecter",
+  "my_accounts account config success": "Votre compte a bien été ajouté",
+  "my_accounts account config bad credentials": "Votre identifiant et/ou mot de passe ne sont pas corrects",
+  "my_accounts account config error": "Une erreur est survenue, vos identifiants n'ont pas pu être enregistrés. Pouvez-vous recommencer ?"
 }

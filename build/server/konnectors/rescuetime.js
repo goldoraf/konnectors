@@ -46,7 +46,9 @@ module.exports = {
     css: '#C23C2F'
   },
   fields: {
-    apikey: "text"
+    apikey: {
+      type: "text"
+    }
   },
   models: {
     activities: RescueTimeActivity

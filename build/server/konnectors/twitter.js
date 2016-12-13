@@ -45,10 +45,18 @@ module.exports = {
     css: '#54ACEE'
   },
   fields: {
-    consumerKey: "text",
-    consumerSecret: "password",
-    accessToken: "text",
-    accessTokenSecret: "password"
+    consumerKey: {
+      type: "text"
+    },
+    consumerSecret: {
+      type: "password"
+    },
+    accessToken: {
+      type: "text"
+    },
+    accessTokenSecret: {
+      type: "password"
+    }
   },
   models: {
     tweets: TwitterTweet
