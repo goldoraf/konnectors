@@ -33,8 +33,13 @@ const connector = module.exports = baseKonnector.createNew({
   },
 
   fields: {
-    accessToken: 'text',
-    calendar: 'text'
+    accessToken: {
+      type: 'text'
+    },
+    calendar: {
+      type: 'text',
+      advanced: true
+    }
   },
 
   models: [Event],

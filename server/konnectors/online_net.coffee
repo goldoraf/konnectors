@@ -34,9 +34,13 @@ module.exports =
         css: '#E92F7C'
 
     fields:
-        login: "text"
-        password: "password"
-        folderPath: "folder"
+        login:
+            type: "text"
+        password:
+            type: "password"
+        folderPath:
+            type: "folder"
+            advanced: true
     models:
         bill: Bill
 

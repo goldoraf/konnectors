@@ -30,9 +30,13 @@ module.exports =
             color: color
 
             fields:
-                loginUrl: "link"
-                token: "hidden"
-                folderPath: "folder"
+                loginUrl:
+                    type: "text"
+                token:
+                    type: "hidden"
+                folderPath:
+                    type: "folder"
+                    advanced: true
 
             models: [Bill],
 

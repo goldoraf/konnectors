@@ -46,9 +46,13 @@ module.exports =
         css: '#009DCC'
 
     fields:
-        phoneNumber: "text"
-        password: "password"
-        folderPath: "folder"
+        phoneNumber:
+            type: "text"
+        password:
+            type: "password"
+        folderPath:
+            type: "folder"
+            advanced: true
     models:
         phonebill: PhoneBill
 
