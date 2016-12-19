@@ -154,7 +154,7 @@
 
   "my_accounts account config title": "Connectez votre compte %{name} dès maintenant :",
   "my_accounts account config button": "Se connecter",
-  "my_accounts account config show password": "Display password",
+  "my_accounts account config show password": "Afficher le mot de passe",
   "my_accounts account config success": "Votre compte a bien été ajouté",
   "my_accounts account config bad credentials": "Votre identifiant et/ou mot de passe ne sont pas corrects",
   "my_accounts account config error": "Une erreur est survenue, vos identifiants n'ont pas pu être enregistrés. Pouvez-vous recommencer ?"
