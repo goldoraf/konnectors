@@ -84,5 +84,30 @@ module.exports = {
         }
       });
     }
+  },
+  redirect: function(req, res, next) {
+    var account, accounts, e, error, k, ref, v;
+    try {
+      accounts = req.konnector.accounts || [];
+      account = accounts[req.params.accountId] || {};
+      ref = req.query;
+      for (k in ref) {
+        v = ref[k];
+        account[k] = v;
+      }
+      account.redirectPath = req.originalUrl;
+      accounts[req.params.accountId] = account;
+    } catch (error) {
+      e = error;
+      return next(e);
+    }
+    return req.konnector.updateFieldValues({
+      accounts: accounts
+    }, function(err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('../../..' + ("/#/category/" + req.konnector.category + "/" + req.konnector.slug));
+    });
   }
 };

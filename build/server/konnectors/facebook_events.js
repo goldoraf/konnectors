@@ -24,7 +24,7 @@ var scope = 'user_events';
 var connector = module.exports = baseKonnector.createNew({
   name: 'Facebook Events',
   slug: 'facebook_events',
-  customView: '<a href=' + getOAuthProxyUrl() + ' target="_blank" >Connect</a>',
+  customView: '<a href=${getOAuthProxyUrl()} target="_blank" ><%t konnector facebook_events connect %></a>',
 
   category: 'social',
   color: {

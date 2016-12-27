@@ -40,10 +40,10 @@ module.exports = {
     hex: '#0D7DC0',
     css: '#0D7DC0'
   },
-  customView: "<h6><%t konnector customview googlecontacts 4 %></h6>\n<p><%t konnector customview googlecontacts 1 %></p>\n<button id=\"connect-google\"\ntitle=\"<%t konnector customview googlecontacts 2 %>\" class=\"btn\"\n   onclick=\"window.open('" + (GoogleToken.getAuthUrl()) + "',\n   'Google OAuth',\n   'toolbars=0,width=700,height=600,left=200,top=200,scrollbars=1,resizable=1');\n   var input = $('#googlecontacts-authCode0-input');\n   input.parents('.field').toggleClass('hidden');\n   input.attr('type', 'text');\n   input.val('');\n   $('#googlecontacts-accountName-input').text('--');\n   return false;\"\n   ><%t konnector customview googlecontacts 2 %></button>\n<p><%t konnector customview googlecontacts 3 %></p>",
+  customView: "<h2><%t konnector customview googlecontacts 4 %></h2>\n<p><%t konnector customview googlecontacts 1 %></p>\n<button id=\"connect-google\"\ntitle=\"<%t konnector customview googlecontacts 2 %>\" class=\"btn\"\n   onclick=\"window.open('" + (GoogleToken.getAuthUrl()) + "',\n   'Google OAuth',\n   'toolbars=0,width=700,height=600,left=200,top=200,scrollbars=1,resizable=1');\"\n   ><%t konnector customview googlecontacts 2 %></button>\n<p><%t konnector customview googlecontacts 3 %></p>",
   fields: {
     authCode: {
-      type: "hidden"
+      type: "text"
     },
     accountName: {
       type: "text"
