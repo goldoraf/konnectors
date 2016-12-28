@@ -28,13 +28,11 @@ module.exports = function (log, model, filter, options) {
     data.created[modelName] = 0;
 
     model.all(function (err, docs) {
-
       if (err) {
         return next(err);
       };
 
       async.eachSeries(news, function (entry, cb) {
-
         var toUpdate = docs.find(function (doc) {
           return filter.reduce(function (good, k) {
             return good && doc[k] === entry[k];

@@ -17,6 +17,8 @@ var appSecret = 'a04e8cf918a382ea0b19cf1b6fbc2506';
 
 var scope = 'user_events';
 
+var oAuthProxyUrl = getOAuthProxyUrl();
+
 /*
  * The goal of this connector is to fetch event from facebook and store them
  * in the Cozy
@@ -24,7 +26,7 @@ var scope = 'user_events';
 var connector = module.exports = baseKonnector.createNew({
   name: 'Facebook Events',
   slug: 'facebook_events',
-  customView: '<a href=${getOAuthProxyUrl()} target="_blank" ><%t konnector facebook_events connect %></a>',
+  customView: '<a href=' + oAuthProxyUrl + ' target="_blank" ><%t konnector facebook_events connect %></a>',
 
   category: 'social',
   color: {
@@ -49,6 +51,7 @@ var connector = module.exports = baseKonnector.createNew({
 });
 
 function getOAuthProxyUrl() {
+  // eslint-disable-line
   var baseUri = 'https://jacquarg.github.io/proxy_redirect/facebook_events/';
   var params = {
     appId: appId,
