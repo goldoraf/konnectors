@@ -183,6 +183,7 @@
   "my_accounts disconnect": "Déconnexion",
   "my_accounts disconnect desc": "Vous serez déconnecté de ce compte, mais les données importées seront gardées",
   "my_accounts disconnect button": "Déconnecter ce compte",
+  "my_accounts delete button": "Supprimer ce compte",
   "my_accounts account delete success": "Compte supprimé",
   "my_accounts account delete error": "Une erreur est survenue, vos identifiants n'ont pas pu être enregistrés. Pouvez-vous recommencer ?"
 }
