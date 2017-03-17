@@ -33,6 +33,10 @@ var connector = module.exports = factory.createNew({
       advanced: true
     }
   },
+<<<<<<< HEAD
+=======
+  dataType: ['bill'],
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Bill],
   fetchOperations: [logIn, selectActiveAccount, parsePage, customFilterExisting, customSaveDataAndFile, customLinkBankOperation, buildNotifContent]
 });

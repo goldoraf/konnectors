@@ -26,7 +26,8 @@ const oAuthProxyUrl = getOAuthProxyUrl()
 const connector = module.exports = baseKonnector.createNew({
   name: 'Facebook Events',
   slug: 'facebook_events',
-  customView: `<a href=${oAuthProxyUrl} target="_blank" ><%t konnector facebook_events connect %></a>`,
+  customView: `<a href=${oAuthProxyUrl} target="_blank" role="button">` +
+    `<%t konnector facebook_events connect %></a>`,
 
   category: 'social',
   color: {
@@ -43,6 +44,10 @@ const connector = module.exports = baseKonnector.createNew({
       advanced: true
     }
   },
+
+  dataType: [
+    'event'
+  ],
 
   models: [Event],
 
@@ -62,10 +67,10 @@ function getOAuthProxyUrl () { // eslint-disable-line
   const params = {
     appId,
     scope,
-    redirect: 'display'
+    redirect: 'url'
   }
 
-  return `${baseUri}?${toQueryString(params)}`
+  return `${baseUri}?${toQueryString(params)}&redirect_url=`
 }
 
 function updateToken (requiredFields, entries, data, next) {

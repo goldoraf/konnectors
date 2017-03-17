@@ -6,6 +6,14 @@ import AccountConnection from '../components/AccountConnection'
 import AccountManagement from '../components/AccountManagement'
 import Notifier from '../components/Notifier'
 
+let AUTHORIZED_DATATYPE = [
+  'activity', 'heartbeat', 'calendar', 'commit',
+  'consumption', 'contact', 'contract', 'travelDate', 'event', 'bill',
+  'stepsNumber', 'podcast', 'weight', 'bloodPressure', 'appointment',
+  'refund', 'sleepTime', 'courseMaterial', 'temperature', 'tweet'
+]
+let isValidType = (type) => AUTHORIZED_DATATYPE.indexOf(type) !== -1
+
 const prepareConnectURL = (connector) => {
   let connectUrl = connector.connectUrl
   if (!connectUrl) {
@@ -27,7 +35,7 @@ const prepareConnectURL = (connector) => {
     // Use function parameter in the future
     const accountIndex = 0
 
-    const redirectUrl = `${l.origin}${l.pathname}/konnectors/` +
+    const redirectUrl = `${l.origin}${l.pathname}konnectors/` +
       `${connector.id}/${accountIndex}/redirect`
     connectUrl += encodeURIComponent(redirectUrl)
   }
@@ -46,7 +54,7 @@ export default class ConnectorManagement extends Component {
     )
     const { name, fields } = connector
     this.state = {
-      connector,
+      connector: this.sanitize(connector),
       isConnected: connector.accounts.length !== 0,
       selectedAccount: 0,
       fields: this.configureFields(fields, context.t, name),
@@ -114,7 +122,11 @@ export default class ConnectorManagement extends Component {
           this.setState({ error: fetchedConnector.importErrorMessage })
         } else {
           this.gotoParent()
-          Notifier.info(t('my_accounts account config success'))
+          if (values.folderPath) {
+            Notifier.info(t('my_accounts account config success'), t('my_accounts account config details') + values.folderPath)
+          } else {
+            Notifier.info(t('my_accounts account config success'))
+          }
         }
       })
       .catch(error => { // eslint-disable-line
@@ -187,6 +199,15 @@ export default class ConnectorManagement extends Component {
     return defaults
   }
 
+  sanitize (connector) {
+    // remove invalid dataType declaration
+    return Object.assign({}, connector,
+      {
+        dataType: connector.dataType.filter(isValidType)
+      }
+    )
+  }
+
   // Set default values for advanced fields that will not be shown
   // on the initial connection form
   configureFields (fields, t, connectorName) {
@@ -194,7 +215,7 @@ export default class ConnectorManagement extends Component {
       fields.calendar.default = connectorName
     }
     if (fields.folderPath && !fields.folderPath.default) {
-      fields.folderPath.default = t('my_accounts title') + '/' + connectorName
+      fields.folderPath.default = '/' + t('my_accounts title') + '/' + connectorName
     }
     if (fields.folderPath && !fields.folderPath.options) {
       fields.folderPath.options = this.store.folders.map(f => f.path + '/' + f.name)

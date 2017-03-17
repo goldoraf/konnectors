@@ -41,6 +41,11 @@ module.exports = baseKonnector.createNew({
     }
   },
 
+<<<<<<< HEAD
+=======
+  dataType: ['bill'],
+
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Bill],
 
   fetchOperations: [login, fetchBills, customFilterExisting, customSaveDataAndFile, linkBankOperation({
@@ -102,7 +107,11 @@ function login(requiredFields, entries, data, next) {
         logger.error(err);
         return next(err);
       }
+<<<<<<< HEAD
 
+=======
+      logger.info('Connected');
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
       if (res.statusCode === 422) {
         return next('bad credentials');
       }
@@ -240,7 +249,11 @@ function fetchBills(requiredFields, entries, data, next) {
       })];
       try {
         linkedPNR = data.pnrs.filter(function (pnr) {
+<<<<<<< HEAD
           return pnr.proof_ids.indexOf(proof.id) !== -1;
+=======
+          return pnr.proof_ids instanceof Array && pnr.proof_ids.indexOf(proof.id) !== -1;
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
         });
       } catch (e) {
         // We do nothing with the error as linkedPNR is set anyway.
@@ -268,6 +281,7 @@ function fetchBills(requiredFields, entries, data, next) {
 
       // Calculate the amount of each system because their is one operation per
       // system.
+<<<<<<< HEAD
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
@@ -275,11 +289,24 @@ function fetchBills(requiredFields, entries, data, next) {
       try {
         var _loop2 = function _loop2() {
           var system = _step2.value;
+=======
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        var _loop2 = function _loop2() {
+          var system = _step3.value;
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
 
           var bill = {
             pdfurl: proof.url,
             type: 'train',
             vendor: 'Captain Train',
+<<<<<<< HEAD
+=======
+            system: system,
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
             date: moment(proof.created_at).hours(0).minutes(0).seconds(0).milliseconds(0)
           };
 
@@ -325,6 +352,7 @@ function fetchBills(requiredFields, entries, data, next) {
           bills.push(bill);
         };
 
+<<<<<<< HEAD
         for (var _iterator2 = systems[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           _loop2();
         }
@@ -339,6 +367,22 @@ function fetchBills(requiredFields, entries, data, next) {
         } finally {
           if (_didIteratorError2) {
             throw _iteratorError2;
+=======
+        for (var _iterator3 = systems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          _loop2();
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
           }
         }
       }
@@ -364,7 +408,65 @@ function fetchBills(requiredFields, entries, data, next) {
     }
   }
 
+<<<<<<< HEAD
   entries.fetched = bills;
+=======
+  var filteredBills = [];
+  // Recombine the bill list so that each entry.url is unique
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    var _loop3 = function _loop3() {
+      var bill = _step2.value;
+
+      // Ensure the bill is not already in the list.
+      var sameUrlBills = filteredBills.filter(function (b) {
+        return b.pdfurl === bill.pdfurl && b.system === bill.system;
+      });
+      if (sameUrlBills.length === 0) {
+        var sameBill = bills.filter(function (b) {
+          return b.pdfurl === bill.pdfurl;
+        }).filter(function (b) {
+          return b.system === bill.system;
+        });
+        var newBill = {
+          amount: sameBill.reduce(function (amount, b) {
+            return amount + b.amount;
+          }, 0),
+          pdfurl: bill.pdfurl,
+          date: bill.date,
+          type: 'train',
+          vendor: 'Captain Train'
+        };
+        if (typeof bill.isRefund !== 'undefined') {
+          newBill.isRefund = bill.isRefund;
+        }
+        filteredBills.push(newBill);
+      }
+    };
+
+    for (var _iterator2 = bills[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      _loop3();
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  entries.fetched = filteredBills;
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   next();
 }
 

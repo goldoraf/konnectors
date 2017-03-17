@@ -3,6 +3,7 @@
 ![Github Release version shield](https://img.shields.io/github/tag/cozy-labs/konnectors.svg)
 ![NPM Licence shield](https://img.shields.io/npm/l/konnectors.svg)
 
+[![Build Status](https://api.travis-ci.org/cozy-labs/konnectors.svg?branch=master)](https://travis-ci.org/cozy-labs/konnectors)
 
 [Cozy][cozy] MyAccounts
 =======================
@@ -42,6 +43,7 @@ The connectors marked with :x: are known as currently broken.
 | Free                    | PDF  | ZeHiro                                                | :white_check_mark:                                                                            |
 | Free Mobile             | PDF  | ZeHiro                                                | :white_check_mark:                                                                            |
 | Github                  | PDF  | doubleface                                            | :white_check_mark:                                                                            |
+| Malakoff Mederic        | PDF  | Gara64                                                | :white_check_mark:                                                                            |
 | Materiel.net            | PDF  | nicofrand                                             | :white_check_mark:                                                                            |
 | Numéricable             | PDF  | nicofrand                                             | :white_check_mark:                                                                            |
 | OVH CA                  | PDF  | Chocobozzz                                            | :x: ([needs an app token](https://github.com/cozy-labs/konnectors/issues/370))                |
@@ -88,6 +90,7 @@ The connectors marked with :x: are known as currently broken.
 | SNCF              | Events          | Chocobozzz     | :white_check_mark:                                                     |
 | Google            | Events          | Cozy           | :white_check_mark:                                                     |
 | Isen              | Events, lessons | Cozy           | :white_check_mark:                                                     |
+| Meetup            | Events          | JbIPS          | :white_check_mark:                                                     |
 
 ### Productivity
 

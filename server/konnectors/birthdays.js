@@ -35,6 +35,10 @@ const connector = module.exports = baseKonnector.createNew({
     }
   },
 
+  dataType: [
+    'event'
+  ],
+
   models: [Event],
 
   fetchOperations: [
@@ -52,7 +56,14 @@ function getContacts (requiredFields, entries, data, next) {
     if (err) {
       connector.logger.error('Cannot retrieve contacts from database')
     } else {
-      data.contacts = contacts.filter((contact) =>
+      if (requiredFields.tag && requiredFields.tag !== '') {
+        data.contacts = contacts.filter(contact =>
+          _.includes(contact.tags, requiredFields.tag)
+        )
+      } else {
+        data.contacts = contacts
+      }
+      data.contacts = contacts.filter(contact =>
         _.includes(contact.tags, requiredFields.tag)
       )
       connector.logger.info('Contacts retrieved.')

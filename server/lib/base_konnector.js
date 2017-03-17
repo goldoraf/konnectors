@@ -1,3 +1,5 @@
+'use strict'
+
 const _ = require('lodash')
 const printit = require('printit')
 const slugify = require('cozy-slug')
@@ -55,5 +57,4 @@ module.exports = {
 
     })
   }
-
 }

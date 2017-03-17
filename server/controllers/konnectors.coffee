@@ -1,3 +1,4 @@
+path = require 'path'
 Konnector = require '../models/konnector'
 konnectorHash = require '../lib/konnector_hash'
 handleNotification = require '../lib/notification_handler'
@@ -17,15 +18,32 @@ module.exports =
             else if not konnector?
                 res.sendStatus 404
             else
+
                 konnector.injectEncryptedFields()
                 konnector.appendConfigData()
                 konnector.checkProperties()
 
+                if konnector.shallRaiseEncryptedFieldsError()
+                    konnector.importErrorMessage = 'encrypted fields'
+                else
+                    konnector.injectEncryptedFields()
+
                 # Add customView field
-                konnectorModule = require "../konnectors/#{konnector.slug}"
+                konnectorModule = require(
+                    path.join(
+                        '..',
+                        'konnectors',
+                        konnector.slug
+                    )
+                )
+                if konnectorModule.default?
+                    konnectorModule = konnectorModule.default
 
                 if konnectorModule.customView?
                     konnector.customView = konnectorModule.customView
+
+                if konnectorModule.connectUrl?
+                    konnector.connectUrl = konnectorModule.connectUrl
 
                 req.konnector = konnector
                 next()
@@ -43,8 +61,16 @@ module.exports =
         data =
             lastAutoImport: null
             importErrorMessage: null
+            lastImport: null
+            lastSuccess: null
             accounts: []
-            password: '{}'
+            password: null
+            importInterval: 'none'
+
+        ## Remove the konnector from the poller
+        poller = require "../lib/poller"
+        log.info "Removing konnector #{req.konnector.slug} from the poller"
+        poller.remove req.konnector
 
         req.konnector.updateAttributes data, (err, konnector) ->
             return next err if err
@@ -59,7 +85,6 @@ module.exports =
     # No import is started when the konnector is already in the is importing
     # state.
     import: (req, res, next) ->
-
         # Don't run a new import if an import is already running.
         if req.konnector.isImporting
             res.send 400, message: 'konnector is importing'
@@ -105,5 +130,26 @@ module.exports =
         req.konnector.updateFieldValues { accounts: accounts }, (err) ->
             return next err if err
 
-            res.redirect '../../..' + \
-              "/#/category/#{req.konnector.category}/#{req.konnector.slug}"
+            res.status(200).send """<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+    <script type="text/javascript">
+        window.onload = function() {
+            //refreshParent;
+            if(window.opener){
+              window.opener.location.reload();
+              setTimeout(function() {
+                  window.close();
+              }, 500);
+            }
+            else {
+              window.location.href = "../../../#/category/#{req.konnector.category}/#{req.konnector.slug}"
+            }
+        };
+    </script>
+</body>
+</html>
+"""

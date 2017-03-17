@@ -2,6 +2,7 @@ cozydb = require 'cozydb'
 async = require 'async'
 konnectorHash = require '../lib/konnector_hash'
 appConfig = require '../config/appConfig'
+localization = require '../lib/localization_manager'
 
 log = require('printit')
     prefix: null
@@ -15,7 +16,7 @@ module.exports = Konnector = cozydb.getModel 'Konnector',
     accounts: [Object], default: [{}]
     password:
         type: String
-        default: '[{}]'
+        default: null
     lastSuccess: Date
     lastImport: Date
     lastAutoImport: Date
@@ -23,7 +24,7 @@ module.exports = Konnector = cozydb.getModel 'Konnector',
     importInterval: type: String, default: 'none'
     errorMessage: type: String, default: null
     importErrorMessage: type: String, default: null
-
+    _passwordStillEncrypted: Boolean
 
 # Retrieve all konnectors. Make sure that encrypted fields are decrypted before
 # being sent.
@@ -31,15 +32,25 @@ Konnector.all = (callback) ->
     Konnector.request 'all', (err, konnectors) ->
         konnectors ?= []
         for konnector in konnectors
-            konnector.injectEncryptedFields()
+            if konnector.shallRaiseEncryptedFieldsError()
+                konnector.importErrorMessage = 'encrypted fields'
+            else
+                konnector.injectEncryptedFields()
+
         callback err, konnectors
 
 
 # Return a konnector for a given key.
+
 Konnector.get = (slug, callback) ->
-    Konnector.request 'all', (err, konnectors) ->
-        konnector = konnectors.find (konnector) -> konnector.slug is slug
-        callback err, konnector
+    Konnector.request 'bySlug', { key: slug }, (err, konnectors) ->
+        return callback err if err
+
+        if konnectors && konnectors.length < 0
+            return callback "No #{slug} konnector in database."
+
+
+        callback null, konnectors[0]
 
 
 # Return fields registered in the konnector module. If it's not defined,
@@ -52,13 +63,14 @@ Konnector::getFields = ->
 
 
 # Unencrypt password fields and set them as normal fields.
-Konnector::injectEncryptedFields = ->
+Konnector::injectEncryptedFields = (callback) ->
     try
         parsedPasswords = JSON.parse @password
         @cleanFieldValues()
-        for passwords, i in parsedPasswords
-            if @accounts[i]?
-                @accounts[i][name] = val for name, val of passwords
+        if parsedPasswords?
+            for passwords, i in parsedPasswords
+                if @accounts[i]?
+                    @accounts[i][name] = val for name, val of passwords
     catch error
         log.error "Attempt to retrieve password for #{@slug} failed: #{error}"
         log.error @password
@@ -140,31 +152,30 @@ Konnector::import = (callback) ->
 
 Konnector::runImport = (values, callback) ->
 
-    if err?
-        log.error 'An error occured while modifying konnector state'
-        log.raw err
+    konnectorModule = konnectorHash[@slug]
 
-        callback err
+    # Only raise the error if there is an account for this konnector
+    if @shallRaiseEncryptedFieldsError()
+        return callback 'encrypted fields',\
+        localization.t 'encrypted fields'
 
-    else
-        konnectorModule = konnectorHash[@slug]
+    @injectEncryptedFields()
 
-        @injectEncryptedFields()
-        values.lastSuccess = @lastSuccess
-        konnectorModule.fetch values, (importErr, notifContent) =>
-            fields = @getFields()
-            @removeEncryptedFields fields
+    values.lastSuccess = @lastSuccess
+    konnectorModule.fetch values, (importErr, notifContent) =>
+        fields = @getFields()
+        @removeEncryptedFields fields
 
-            if importErr? and \
-            typeof(importErr) is 'object' and \
-            importErr.message?
-                callback importErr, notifContent
+        if importErr? and \
+        typeof(importErr) is 'object' and \
+        importErr.message?
+            callback importErr, notifContent
 
-            else if importErr? and typeof(importErr) is 'string'
-                callback importErr, notifContent
+        else if importErr? and typeof(importErr) is 'string'
+            callback importErr, notifContent
 
-            else
-                callback null, notifContent
+        else
+            callback null, notifContent
 
 
 # Append data from module file of curent konnector.
@@ -235,6 +246,15 @@ Konnector::cleanFieldValues = ->
     if @password? and @password[0] is '{'
         password = JSON.parse @password
         @password = JSON.stringify [password]
+
+
+# Tells if the konnector still has encrypted valued
+Konnector::hasEncryptedPassword = ->
+    @_passwordStillEncrypted? and @_passwordStillEncrypted
+
+Konnector::shallRaiseEncryptedFieldsError = ->
+    return @hasEncryptedPassword() and \
+    JSON.stringify(@accounts) isnt '[]'
 
 
 # Authorized Categories for konnectors

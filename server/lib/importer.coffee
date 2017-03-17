@@ -3,6 +3,7 @@ handleNotification = require './notification_handler'
 log = require('printit')
     prefix: null
     date: true
+path = require 'path'
 
 Konnector = require '../models/konnector'
 localization = require './localization_manager'
@@ -20,7 +21,15 @@ module.exports = (konnector, callback) ->
     # check if the konnector is created and if its not already importing
     if konnector.accounts?.length > 0 and konnector.isImporting is false
         log.info "Run import for #{konnector.slug}."
-        model = require "../konnectors/#{konnector.slug}"
+        model = require(
+            path.join(
+                '..',
+                'konnectors',
+                konnector.slug
+            )
+        )
+        if model.default?
+            model = model.default
 
         konnector.import (err, notifContents) ->
 

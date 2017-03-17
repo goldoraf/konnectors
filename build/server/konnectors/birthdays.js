@@ -35,6 +35,11 @@ var connector = module.exports = baseKonnector.createNew({
     }
   },
 
+<<<<<<< HEAD
+=======
+  dataType: ['event'],
+
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Event],
 
   fetchOperations: [getContacts, extractBirthdays, saveEvents, buildNotifContent]
@@ -47,6 +52,16 @@ function getContacts(requiredFields, entries, data, next) {
     if (err) {
       connector.logger.error('Cannot retrieve contacts from database');
     } else {
+<<<<<<< HEAD
+=======
+      if (requiredFields.tag && requiredFields.tag !== '') {
+        data.contacts = contacts.filter(function (contact) {
+          return _.includes(contact.tags, requiredFields.tag);
+        });
+      } else {
+        data.contacts = contacts;
+      }
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
       data.contacts = contacts.filter(function (contact) {
         return _.includes(contact.tags, requiredFields.tag);
       });

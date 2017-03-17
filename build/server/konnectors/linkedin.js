@@ -408,6 +408,11 @@ module.exports = {
     }
   },
 
+<<<<<<< HEAD
+=======
+  dataType: ['contact'],
+
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: {
     contact: Contact
   },

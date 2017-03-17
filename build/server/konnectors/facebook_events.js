@@ -26,7 +26,11 @@ var oAuthProxyUrl = getOAuthProxyUrl();
 var connector = module.exports = baseKonnector.createNew({
   name: 'Facebook Events',
   slug: 'facebook_events',
+<<<<<<< HEAD
   customView: '<a href=' + oAuthProxyUrl + ' target="_blank" ><%t konnector facebook_events connect %></a>',
+=======
+  customView: '<a href=' + oAuthProxyUrl + ' target="_blank" role="button">' + '<%t konnector facebook_events connect %></a>',
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
 
   category: 'social',
   color: {
@@ -44,6 +48,11 @@ var connector = module.exports = baseKonnector.createNew({
     }
   },
 
+<<<<<<< HEAD
+=======
+  dataType: ['event'],
+
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Event],
 
   fetchOperations: [updateToken, saveTokenInKonnector, downloadData, parseData, saveEvents, buildNotifContent]
@@ -56,10 +65,17 @@ function getOAuthProxyUrl() {
   var params = {
     appId: appId,
     scope: scope,
+<<<<<<< HEAD
     redirect: 'display'
   };
 
   return baseUri + '?' + toQueryString(params);
+=======
+    redirect: 'url'
+  };
+
+  return baseUri + '?' + toQueryString(params) + '&redirect_url=';
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
 }
 
 function updateToken(requiredFields, entries, data, next) {

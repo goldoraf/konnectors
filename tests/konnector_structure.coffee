@@ -10,7 +10,9 @@ describe 'Check all konnectors', ->
     listOfKonnectors = fs.readdirSync konnectorsDirectory
     listOfLocales = fs.readdirSync localesDirectory
 
-    listOfKonnectors.forEach (filename) ->
+    # Remove hidden files (a.k.a. thoses starting with '.')
+    listOfKonnectors.filter (filename) -> filename.charAt(0) != '.'
+    .forEach (filename) ->
         subString = filename.split('.')
         name = subString[0]
         describe name, ->
@@ -31,6 +33,11 @@ describe 'Check all konnectors', ->
                         for fieldName in konnector.fields
                             konnector.fields[fieldName].should.be.an.Object
                             should.exist konnector.fields[fieldName].type
+
+                    it "at least one declared dataType", ->
+                        should.exist konnector.dataType
+                        konnector.dataType.should.be.an.Array
+                        konnector.dataType.length.should.be.aboveOrEqual(1)
 
                     it "models", ->
                         should.exist konnector.models

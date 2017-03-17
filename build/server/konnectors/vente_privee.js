@@ -59,11 +59,19 @@ var connector = module.exports = baseKonnector.createNew({
       advanced: true
     }
   },
+<<<<<<< HEAD
+=======
+  dataType: ['bill'],
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Bill],
   fetchOperations: [getHiddenInputs, logIn, parsePage, customFilterExisting, customSaveDataAndFile, linkBankOperation({
     log: log,
     model: Bill,
+<<<<<<< HEAD
     identifier: 'VENTE PRIVEE.COM',
+=======
+    identifier: ['VENTE PRIVEE.COM', 'WWW.VENTE-PRIVEE.COM'],
+>>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
     minDateDelta: 4,
     maxDateDelta: 20,
     amountDelta: 0.1
