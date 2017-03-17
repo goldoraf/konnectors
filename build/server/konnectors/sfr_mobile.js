@@ -45,10 +45,7 @@ var connector = module.exports = baseKonnector.createNew({
       advanced: true
     }
   },
-<<<<<<< HEAD
-=======
   dataType: ['bill'],
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Bill],
   fetchOperations: [getToken, logIn, fetchBillingInfo, parsePage, customFilterExisting, customSaveDataAndFile, linkBankOperation({
     log: log,

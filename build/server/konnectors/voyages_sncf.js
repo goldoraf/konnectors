@@ -53,11 +53,8 @@ var connector = module.exports = baseKonnector.createNew({
     }
   },
 
-<<<<<<< HEAD
-=======
   dataType: ['bill', 'travelDate'],
 
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Event, Bill],
 
   fetchOperations: [logIn, getOrderPage, parseOrderPage, customFilterExisting, customSaveDataAndFile, saveEvents, buildNotifContent]

@@ -37,14 +37,11 @@ var connector = module.exports = factory.createNew({
   // connectUrl: '${getConnectUrl()}&redirect_uri=',
   connectUrl: connectUrl + '/authorize?response_type=' + type + '&client_id=' + clientId + '&scope=' + scope + '&state=' + state + '&nonce=' + nonce + '&redirect_uri=',
 
-<<<<<<< HEAD
-=======
   color: {
     hex: '#007858',
     css: '#007858'
   },
 
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   fields: {
     code: {
       type: 'hidden' // To get the Auth code returned on the redirection.
@@ -57,11 +54,8 @@ var connector = module.exports = factory.createNew({
     }
   },
 
-<<<<<<< HEAD
-=======
   dataType: ['bill', 'contact'],
 
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [MaifUser],
   fetchOperations: [refreshToken, saveTokenInKonnector, fetchData, createOrUpdateInDB]
 });

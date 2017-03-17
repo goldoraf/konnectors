@@ -3,11 +3,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var async = require('async');
-<<<<<<< HEAD
-
-=======
 var moment = require('moment');
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
 var filterExisting = require('../lib/filter_existing');
 var localization = require('../lib/localization_manager');
 var saveDataAndFile = require('../lib/save_data_and_file');
@@ -47,10 +43,7 @@ module.exports = baseKonnector.createNew({
       advanced: true
     }
   },
-<<<<<<< HEAD
-=======
   dataType: ['bill'],
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   models: [Bill],
   fetchOperations: [logIn, getTrips, customFilterExisting, customSaveDataAndFile, logOut, linkBankOperation({
     log: log,
@@ -129,12 +122,9 @@ function getTrips(requiredFields, bills, data, next) {
     return trip.replace('#trip-', '');
   });
   log.info('Found ' + tripsId.length + ' uber trips');
-<<<<<<< HEAD
-=======
   var maybeNext = $('a.btn.pagination__next').attr('href');
 
   log.info('Found ' + tripsId.length + ' uber trips');
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
   var fetchedBills = [];
   async.eachSeries(tripsId, function (tripId, callback) {
     var tripOption = {
@@ -179,11 +169,7 @@ function getTrips(requiredFields, bills, data, next) {
         }
 
         var bill = {
-<<<<<<< HEAD
-          date: new Date(parsedBody[0].invoice_date),
-=======
           date: moment(new Date(parsedBody[0].invoice_date)),
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
           amount: parseFloat(amount),
           type: 'Taxi',
           pdfurl: 'https://riders.uber.com/invoice-gen' + parsedBody[0].document_path,
@@ -197,9 +183,6 @@ function getTrips(requiredFields, bills, data, next) {
     if (err) {
       return next(err);
     }
-<<<<<<< HEAD
-    bills.fetched = fetchedBills;
-=======
     if (typeof bills.fetched === 'undefined') {
       bills.fetched = fetchedBills;
     } else {
@@ -217,7 +200,6 @@ function getTrips(requiredFields, bills, data, next) {
         return getTrips(requiredFields, bills, data, next);
       });
     }
->>>>>>> c198a158ff5a25d0a6a270670086d5d2002f5ca3
     log.info('Bills succesfully fetched');
     return next();
   });
